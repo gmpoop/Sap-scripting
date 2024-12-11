@@ -1,0 +1,11 @@
+{
+    "commands": {
+        "screenshot": [
+            "session.findById('wnd[0]').sendVKey 0",
+            "session.findById('wnd[1]/tbar[0]/btn[0]').press"
+        ],
+        "text": [
+            "session.findById('wnd[0]/usr/ctxtRMMG1-MATNR').text"
+        ]
+    }
+}

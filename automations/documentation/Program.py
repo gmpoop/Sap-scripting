@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import os
 import time
-from .Watcher import Watcher
+from Watcher import Watcher
 
 
 if __name__ == '__main__':

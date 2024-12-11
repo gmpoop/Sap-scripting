@@ -7,8 +7,6 @@ from watchdog.events import FileSystemEventHandler
 EXCEL_DIRERCTORY = os.getenv("EXCEL_DIRERCTORY") 
 MACRO  = os.getenv("MACRO") 
 
-
-
 class Handler(FileSystemEventHandler):
     def on_created(self, event):
         if event.is_directory:
@@ -42,11 +40,14 @@ class Handler(FileSystemEventHandler):
         
         # Reintentar hasta que el archivo exista
         for _ in range(5):
-            if os.path.isfile(filepath):
+            if os.path.isfile(filepath):    
                 try:
                     with open(filepath, 'r', encoding='ansi') as file:
                         content = file.read()
                         print(content)
+                        # Modificar el archivo
+                        self.modificar_archivo(filepath)                        
+
                 except Exception as e:
                     print(f"Error al leer el archivo: {e}")
                 break
@@ -62,10 +63,35 @@ class Handler(FileSystemEventHandler):
             excel = win32.Dispatch("Excel.Application")
             excel.Visible = True
             wb = excel.Workbooks.Open(EXCEL_DIRERCTORY)
-            excel.Application.Run(MACRO)
-            wb.Close(SaveChanges=False)
-            excel.Quit()
+            # excel.Application.Run(MACRO)
+            # wb.Close(SaveChanges=False)
+            # excel.Quit()
             print("Macro ejecutada correctamente.")
         except Exception as e:
             print(f"Error al ejecutar la macro: {e}")   
+
+
+    def modificar_archivo(self, file_path):
+        print("Modificando archivo...")
+
+        try:
+            # Lee todas las líneas del archivo
+            with open(file_path, 'r', encoding='utf-8') as file:
+                lines = file.readlines()
+
+            # Elimina las primeras 13 líneas
+            lines_to_keep = lines[14:]
+
+            # Sobrescribe el archivo con las líneas restantes
+            with open(file_path, 'w', encoding='utf-8') as file:
+                file.writelines(lines_to_keep)
+
+            print("Archivo modificado exitosamente.")
+        except FileNotFoundError:
+            print(f"Error: El archivo '{file_path}' no existe.")
+        except Exception as e:
+            print(f"Error al modificar el archivo: {e}")
+
+
+
 
