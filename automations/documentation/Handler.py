@@ -5,6 +5,7 @@ import time
 import win32com.client as win32
 from watchdog.events import FileSystemEventHandler
 import chardet
+import re
 from TemplateFile import TemplateFile
 
 EXCEL_DIRERCTORY = os.getenv("EXCEL") 
@@ -81,7 +82,7 @@ class Handler(FileSystemEventHandler):
                        
             # Editar una celda específica
             sheet.Range("E6").Value = self.template_path  # Cambia (1, 1) por la fila y columna que deseas editar
-            sheet.Range("E7").Value = self.template_file  # Cambia (1, 1) por la fila y columna que deseas editar
+            sheet.Range("E7").Value = f"\{self.template_file}"  # Cambia (1, 1) por la fila y columna que deseas editar
             sheet.Range("C11").Value = 0  # Cambia (1, 1) por la fila y columna que deseas editar
             sheet.Range("B11").Value = "Default"   # Cambia (1, 1) por la fila y columna que deseas editar
             
@@ -107,8 +108,20 @@ class Handler(FileSystemEventHandler):
             with open(file_path, 'r', encoding=encoding) as file:
                 lines = file.readlines()
 
+
             # Buscar e insertar el código después de cada 'sendVKey 0'
             for i, line in enumerate(lines):
+               
+                if "session.findById(\"wnd[0]/tbar[0]/okcd\").text" in line:
+                    match = re.search(r'session\.findById\("wnd\[0\]/tbar\[0\]/okcd"\)\.text\s*=\s*"(\w+)"', line)
+                    if match:
+                        transaction = match.group(1)  # La transacción que encontramos
+                        modified_line = re.sub(r'session\.findById\("wnd\[0\]/tbar\[0\]/okcd"\)\.text\s*=\s*"\w+"', 
+                                            f'session.findById("wnd[0]/tbar[0]/okcd").text = "/n{transaction}"', line)
+                        lines[i] = modified_line
+                        print("Línea modificada:", modified_line)
+                    else: 
+                        print("No se encontró ninguna coincidencia.")
                 if "session.findById(\"wnd[0]\").sendVKey 0" in line:
                     # Código para tomar la captura de pantalla       
                     screenshot_code = f"\nresponse = Doc.TakeScreenshot('#SCREEN{self.screenshot_count}#')\n" \
@@ -127,9 +140,10 @@ class Handler(FileSystemEventHandler):
                                     "    GoTo myerr\n" \
                                     "End If\n"
                 
-
             # Elimina las primeras 13 líneas
             lines_to_keep = lines[14:]
+
+            # lines_to_keep.insert(0, "session.findById(\"wnd[0]\").sendVKey 27\n") # Nos aseguramos de que la primera accion sea el salir de la primera pantalla correspondiente
 
             # Sobrescribe el archivo con las líneas restantes usando la misma codificación
             with open(file_path, 'w', encoding=encoding) as file:
@@ -165,9 +179,3 @@ class Handler(FileSystemEventHandler):
             print("Template creado exitosamente.")
         except Exception as e:
             print(f"Error al crear el template: {e}")
-
-
-
-
-
-

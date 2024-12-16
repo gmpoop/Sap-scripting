@@ -16,13 +16,19 @@ class TemplateFile:
         try:
             # Crear un nuevo documento de Word
             doc = Document()
+            doc.add_paragraph(f"\n{self.title}\n")
+
+            table = doc.add_table(rows=self.count, cols=2)
+            table.style = 'Table Grid'  # Estilo opcional para la tabla
+            table.autofit = False  # Desactiva el ajuste automático
+            table.columns[0].width = 3886200  # Ajustar el ancho de la primera columna (en EMUs)
+            table.columns[1].width = 3886200
 
             # Agregar el contenido al documento
             for i in range(self.count):
-                if i == 0:
-                    doc.add_paragraph(f"\n{self.title}\n")
-                doc.add_paragraph(f"#SCREEN{i + 1}#")
-                doc.add_paragraph("\n")
+                # Llenar las celdas de la tabla
+                row = table.rows[i]
+                row.cells[1].text = f"#SCREEN{i + 1}#"  # Contenido en la segunda columna
 
             # Generar un nombre de archivo único
             unique_filename = f"{self.title}_{uuid.uuid4()}.docx"
