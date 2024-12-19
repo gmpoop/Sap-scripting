@@ -1,0 +1,38 @@
+Edicom
+
+Especialistas en soluciones EDI y facturación electrónica.
+Amplia experiencia en México y América Latina.
+Ofrecen integración con SAP, Oracle, Microsoft Dynamics y más.
+Cumplen con normativas fiscales locales (como CFDI en México). 
+Sector automotriz con el que trabajan: 
+Honeywell
+Tesla 
+BMW
+ISUZU 
+Ferrari
+Multistandar: EDIFACT, X12, VDA, UBL
+
+
+
+OpenText (GXS)
+Solución global con servicios robustos para EDI.
+Ideal para empresas grandes con alto volumen de transacciones.
+Ofrecen nube EDI y soporte para múltiples industrias, como retail y manufactura.
+
+Amexipac
+Proveedor autorizado de certificación (PAC) en México.
+Ofrecen servicios relacionados con facturación y EDI en cumplimiento con las normativas fiscales mexicanas. 
+Especialistas en procesos para empresas que necesitan conectividad con el SAT.
+
+B2BE
+Ofrecen servicios EDI flexibles y adaptables.
+Soporte para integraciones personalizadas y flujos de trabajo específicos.
+Buen balance entre costo y funcionalidad.
+
+TrueCommerce
+Solución escalable, ideal para pequeñas y medianas empresas.
+Proporciona portales web y soluciones integradas para automatizar el intercambio de documentos.
+
+Esker
+Ofrecen automatización de procesos empresariales y soluciones EDI.
+Excelente para empresas que buscan optimizar el ciclo de compras y cuentas por cobrar.
